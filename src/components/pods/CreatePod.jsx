@@ -12,6 +12,7 @@ import {
 import { styled } from "@mui/system";
 import axios from "axios";
 import { apiGeneral } from "../../utils/urls";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled(Box)(() => ({
   maxWidth: "600px",
@@ -47,11 +48,29 @@ function CreatePod() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const userId = localStorage.getItem("user_id");
+  const [userRole, setRole] = useState("");
+  const navigate = useNavigate();
+
+  async function fetchUserRole(userId) {
+    try {
+      const response = await axios.get(
+        `${apiGeneral.createPod}/user-role/${userId}`
+      );
+      return response.data.role;
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+      throw error;
+    }
+  }
+
   const handleSubmit = async () => {
     setLoading(true);
     setError("");
 
     try {
+      fetchUserRole(userId).then((role) => {
+        setRole(role);
+      });
       const response = await axios.post(
         apiGeneral.createPod,
         {
@@ -59,6 +78,8 @@ function CreatePod() {
           pod_description: description,
           is_public: privacy === "public",
           created_by: userId,
+          members: [{ user_id: userId, role: userRole }],
+          resources: [],
         },
         {
           headers: {
@@ -67,9 +88,9 @@ function CreatePod() {
           },
         }
       );
-
-      console.log("Pod created successfully:", response.data);
-      // Redirect or show success message
+      if (response) {
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error(
         "Error creating pod:",
@@ -113,13 +134,11 @@ function CreatePod() {
           <MenuItem value="private">Private</MenuItem>
         </Select>
       </FormControl>
-
       {error && (
         <Typography color="error" align="center" margin="16px 0">
           {error}
         </Typography>
       )}
-
       <OptionButton
         variant="contained"
         onClick={handleSubmit}

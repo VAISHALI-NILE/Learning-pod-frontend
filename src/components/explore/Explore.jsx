@@ -19,7 +19,7 @@ const Explore = () => {
     const fetchPods = async () => {
       try {
         const response = await fetch(
-          "https://hackothsava-server.onrender.com/create/get-pods?is_public=true"
+          "http://localhost:8000/create/get-pods?is_public=true"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

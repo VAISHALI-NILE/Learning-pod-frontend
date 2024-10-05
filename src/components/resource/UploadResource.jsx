@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./UploadResource.css"; // Ensure you have styles for the component
+import "./UploadResource.css";
 
-const UploadResource = ({ podId }) => {
+const UploadResource = ({ podId, onUploadSuccess }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [resourceName, setResourceName] = useState("");
   const [message, setMessage] = useState("");
@@ -25,7 +25,7 @@ const UploadResource = ({ podId }) => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     formData.append("resource_name", resourceName);
-    formData.append("uploaded_by", localStorage.getItem("user_id")); // Ensure this is passed to the backend
+    formData.append("uploaded_by", localStorage.getItem("user_id"));
     formData.append("podId", podId);
 
     setIsUploading(true);
@@ -42,6 +42,7 @@ const UploadResource = ({ podId }) => {
         }
       );
       setMessage(`Success: ${response.data.message}`);
+      onUploadSuccess(); // Notify parent component of successful upload
     } catch (error) {
       console.error("Error uploading file:", error);
       setMessage(
@@ -53,7 +54,7 @@ const UploadResource = ({ podId }) => {
   };
 
   return (
-    <div className="upload-resource">
+    <>
       <h2>Upload Resource</h2>
       <input
         type="text"
@@ -71,7 +72,7 @@ const UploadResource = ({ podId }) => {
         {isUploading ? "Uploading..." : "Upload"}
       </button>
       {message && <p className="message">{message}</p>}
-    </div>
+    </>
   );
 };
 

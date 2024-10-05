@@ -17,7 +17,6 @@ function ExCard({ pod }) {
     return <div className="error">Invalid pod data</div>; // Handle invalid pod data
   }
   const handleOpen = (pod) => {
-    console.log("Card clicked:", pod);
     // Add any additional logic to handle the pod object when the card is clicked
   };
   const handleOpenPopup = (pod) => {
@@ -38,7 +37,6 @@ function ExCard({ pod }) {
     handleClosePopup();
   };
 
-  console.log(pod);
   return (
     <div>
       <div className="card-container">

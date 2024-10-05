@@ -1,16 +1,14 @@
-/* Container for the Resource Page */
 .resource-page {
-  padding: 1.5rem;
-  background-color: #f4f4f9; /* Light gray background for the page */
-  min-height: 100vh; /* Ensure the page covers full viewport height */
+  padding: 2.5rem;
+  background-color: #f4f4f9;
+  min-height: 100vh;
 }
 
-/* Title Styling */
 .resource-page h1 {
   font-size: 2rem;
   color: #333;
   margin-bottom: 1rem;
-  border-bottom: 2px solid #007bff; /* Blue underline for emphasis */
+  border-bottom: 2px solid #2d3e54;
   padding-bottom: 0.5rem;
 }
 
@@ -23,7 +21,7 @@
 
 /* Styling for Resource List */
 .resource-list {
-  background-color: #fff; /* White background for the list container */
+  background-color: #fff;
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -31,7 +29,7 @@
 
 /* Styling for Upload Resource Section */
 .upload-resource {
-  background-color: #fff; /* White background for the upload container */
+  background-color: #fff;
   border-radius: 8px;
   padding: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -47,4 +45,16 @@
   .upload-resource {
     padding: 1rem;
   }
+}
+.search-bar {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search-input {
+  padding: 10px;
+  width: 50%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }

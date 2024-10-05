@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ResourceList from "./ResourceList";
 import UploadResource from "./UploadResource";
-import "./ResourcePage.css"; // Ensure this file exists and is styled properly
+import "./ResourcePage.css";
 import { useLocation } from "react-router-dom";
 
 const ResourcePage = () => {
@@ -16,7 +16,7 @@ const ResourcePage = () => {
 
   return (
     <div className="resource-page">
-      <h1>Resources for Pod : {podName}</h1>
+      <h1>Resources for Pod: {podName}</h1>
       <div className="resource-page-content">
         {podId ? (
           <>
@@ -26,8 +26,13 @@ const ResourcePage = () => {
                 onUploadSuccess={handleUploadSuccess}
               />
             </div>
+
+            {/* Resource List */}
             <div className="resource-list">
-              <ResourceList key={refreshKey} podId={podId} />
+              <ResourceList
+                key={refreshKey} // Use refreshKey as a key to trigger re-render
+                podId={podId}
+              />
             </div>
           </>
         ) : (

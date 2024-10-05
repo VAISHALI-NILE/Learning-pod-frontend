@@ -39,8 +39,8 @@ export default function SignUp() {
     try {
       const handleResponse = (responseData) => {
         setLoading(false);
-        console.log("blahhhh", responseData);
-        alert("added");
+        console.log("Response Data:", responseData);
+        alert("Sign-up successful");
         navigate("/");
       };
 
@@ -64,6 +64,7 @@ export default function SignUp() {
       );
     } catch (error) {
       console.error("Sign-up failed:", error);
+      alert("Sign-up failed: " + error.message);
       setLoading(false);
     }
   };

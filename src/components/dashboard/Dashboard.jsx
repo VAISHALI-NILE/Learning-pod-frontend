@@ -1,22 +1,45 @@
+// Dashboard.js
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Dashboard.css";
-import Card from "./Card"; // Ensure this Card component handles props correctly
+import Card from "./Card";
 import PodConfirm from "../pods/PodConfirm";
 import AddIcon from "@mui/icons-material/Add";
 import PersonIcon from "@mui/icons-material/Person";
 import { apiGeneral } from "../../utils/urls";
 import axios from "axios";
 import ExCard from "./ExCard";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import NotificationModal from "./NotificationModal";
+import ProfilePopup from "./ProfilePopup"; // Import ProfilePopup component
 
 function Dashboard() {
   const [open, setOpen] = useState(false);
   const [explorePods, setExplorePods] = useState([]);
   const [userPods, setUserPods] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false); // State to manage profile popup
+  const [user, setUser] = useState({}); // State to store user details
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handlePopupClick = () => {
+    setOpenPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setOpenPopup(false);
+  };
+
+  const handleProfileOpen = () => {
+    setProfileOpen(true);
+  };
+
+  const handleProfileClose = () => {
+    setProfileOpen(false);
+  };
 
   const handleConfirm = () => {
     console.log("Confirmed!");
@@ -44,7 +67,7 @@ function Dashboard() {
     const fetchPods = async () => {
       try {
         const response = await fetch(
-          "https://hackothsava-server.onrender.com/create/get-pods?is_public=true"
+          "http://localhost:8000/create/get-pods?is_public=true"
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -59,6 +82,21 @@ function Dashboard() {
     fetchPods();
   }, []);
 
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/login/user/${userId}`
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
+    };
+
+    fetchUserDetails();
+  }, [userId]);
+
   return (
     <div>
       <div className="dashboard">
@@ -66,7 +104,14 @@ function Dashboard() {
           <div></div>
           <div className="menu-right">
             <AddIcon className="menu-item" onClick={handleOpen} />
-            <PersonIcon className="menu-item " />
+            <NotificationsIcon
+              className="menu-item"
+              onClick={handlePopupClick}
+            />
+            <PersonIcon
+              className="menu-item"
+              onClick={handleProfileOpen} // Open profile popup
+            />
           </div>
         </div>
         <PodConfirm
@@ -149,6 +194,12 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      <NotificationModal open={openPopup} onClose={handlePopupClose} />
+      <ProfilePopup
+        open={profileOpen}
+        onClose={handleProfileClose}
+        user={user}
+      />
     </div>
   );
 }

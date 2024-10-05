@@ -8,10 +8,8 @@ function Card({ pod }) {
     return <div className="error">Invalid pod data</div>; // Handle invalid pod data
   }
   const handleOpen = (pod) => {
-    console.log("Card clicked:", pod);
     navigate("/pod");
   };
-  console.log(pod);
   return (
     <div className="card-container">
       <h3>{pod.pod_name}</h3>
